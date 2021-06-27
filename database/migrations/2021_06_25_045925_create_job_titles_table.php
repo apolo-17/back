@@ -18,7 +18,8 @@ class CreateJobTitlesTable extends Migration
             $table->string('name');
             $table->integer('importance')->default(1);
             $table->boolean('is_boss');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            //$table->foreignId('entity_id')->constrained('entities')->onDelete('cascade');
             $table->timestamps();
         });
     }

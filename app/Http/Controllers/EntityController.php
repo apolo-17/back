@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EntityRequest;
 use App\Models\Entity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EntityController extends Controller
 {
@@ -14,7 +16,7 @@ class EntityController extends Controller
      */
     public function index()
     {
-        //
+        return view('entity.index', ['entities' => Entity::get()]);
     }
 
     /**
@@ -24,7 +26,7 @@ class EntityController extends Controller
      */
     public function create()
     {
-        //
+        return view('entity.create');
     }
 
     /**
@@ -33,9 +35,10 @@ class EntityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EntityRequest $request)
     {
-        //
+        $entity = Entity::create($request->all());
+        return response()->json(['entity_id' => $entity->id]);
     }
 
     /**
@@ -46,7 +49,7 @@ class EntityController extends Controller
      */
     public function show(Entity $entity)
     {
-        //
+        return view('entity.show', ['entity' => $entity]);
     }
 
     /**

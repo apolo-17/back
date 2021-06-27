@@ -17,11 +17,12 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('last_name');
-            $table->tinyInteger('dni');
+            $table->string('dni')->unique();
             $table->date('born_date');
             $table->string('address');
             $table->string('photo_url');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            //$table->foreignId('entity_id')->constrained('entities')->onDelete('cascade');
             $table->timestamps();
         });
     }

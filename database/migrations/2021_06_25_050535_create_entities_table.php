@@ -17,6 +17,8 @@ class CreateEntitiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('identifier');
+            /* $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
+            $table->foreignId('job_title_id')->nullable()->constrained('job_titles')->onDelete('cascade'); */
             $table->timestamps();
         });
     }

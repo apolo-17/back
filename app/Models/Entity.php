@@ -9,13 +9,15 @@ class Entity extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'identifier'];
+
     public function employees()
     {
-        return $this->hasMany(Employee::class);
+        return $this->belongsToMany(Employee::class);
     }
 
     public function jobTitles()
     {
-        return $this->hasMany(JobTitle::class);
+        return $this->belongsToMany(JobTitle::class);
     }
 }

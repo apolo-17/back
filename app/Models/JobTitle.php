@@ -9,8 +9,15 @@ class JobTitle extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'importance', 'is_boss', 'category_id'];
+
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
+    }
+
+    public function entities()
+    {
+        return $this->belongsToMany(Entity::class);
     }
 }

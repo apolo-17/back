@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
+
+use function PHPUnit\Framework\returnSelf;
 
 class EmployeeController extends Controller
 {
@@ -14,7 +18,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        return view('employees.index', ['employees' => Employee::get()]);
     }
 
     /**
@@ -24,7 +28,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employees.create');
     }
 
     /**
@@ -33,9 +37,21 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmployeeRequest $request)
     {
-        //
+        $photo_profile = $request->all();
+        if ($request->hasFile('photo_url')) {
+            $photo_profile['photo_url'] = $request->file('photo_url')->store('profile_photos');
+        }
+
+        $user_id = User::create([
+            'name' => $request->name,
+            'password' => bcrypt($request->dni),
+            'email' => User::creationEmail($request->name, $request->last_name),
+        ]);
+
+        $employee = Employee::create($photo_profile + ['user_id' => $user_id->id]);
+        return response()->json(['employee_id' => $employee->id]);
     }
 
     /**
@@ -46,7 +62,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return view('employees.show', ['employee' => $employee]);
     }
 
     /**

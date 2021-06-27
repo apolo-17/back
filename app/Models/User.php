@@ -45,4 +45,25 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public static function creationEmail($name, $last_name)
+    {
+
+        $name = strtolower($name);
+        $last_name = strtolower($last_name);
+
+        $email = $name . '.';
+
+        for ($i = 0; $i = strlen($last_name); $i++) {
+            $index = 0;
+            $email = $email . $last_name[$index] . '@test.com';
+
+            if (!User::where('email', $email)->first()) {
+                break;
+            }
+            $index++;
+        }
+
+        return $email;
+    }
 }
